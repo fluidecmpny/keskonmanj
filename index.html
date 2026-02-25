@@ -117,6 +117,7 @@ header::after{
   cursor:pointer;font-family:'DM Sans',sans-serif;font-size:.88rem;color:var(--brown);
   transition:all .2s;-webkit-appearance:none;min-height:40px;
   user-select:none;-webkit-user-select:none;
+  touch-action:manipulation;
 }
 .theme-btn.selected{background:var(--terracotta);border-color:var(--terracotta);color:white;}
 .selected-count{font-size:.82rem;color:var(--sage);margin-bottom:1.2rem;}
@@ -1240,10 +1241,13 @@ document.addEventListener('keydown', function(e){
   if (e.key === 'Escape') { closeRecipe(); closeShare(); }
 });
 
-// iOS: prevent double-tap zoom on buttons
+// iOS: prevent double-tap zoom — uniquement sur les éléments non-interactifs
 document.addEventListener('touchend', function(e){
-  if (e.target.tagName === 'BUTTON' || e.target.tagName === 'SELECT') e.preventDefault();
-}, { passive:false });
+  var tag = e.target.tagName;
+  if (tag !== 'BUTTON' && tag !== 'SELECT' && tag !== 'INPUT' && tag !== 'LABEL') {
+    // ne rien faire
+  }
+}, { passive:true });
 </script>
 </body>
 </html>
