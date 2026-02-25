@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Keskonmanj">
+<title>Keskonmanj</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ── RESET & ROOT ──────────────────────────────────────── */
+:root{
+  --cream:#F5EFE0;--warm-white:#FDFAF4;--terracotta:#C4602A;
+  --terracotta-light:#E8865A;--dark:#1A1208;--brown:#5C3D1E;
+  --wood:#8B5E3C;--wood-light:#C49A6C;--sage:#7A8C6E;--gold:#D4A843;
+  --border:#D4C4A0;--rust:#A0522D;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html{font-size:16px;}
+body{
+  background:var(--cream);color:var(--dark);
+  font-family:'DM Sans',sans-serif;min-height:100vh;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+
+/* ── HEADER ────────────────────────────────────────────── */
+header{
+  background:linear-gradient(135deg,#3D2B1F 0%,#5C3D1E 40%,#4A3728 70%,#6B4C35 100%);
+  color:var(--cream);
+  padding: calc(1.2rem + var(--safe-top)) 1.2rem 1.2rem;
+  display:flex;align-items:center;justify-content:space-between;
+  border-bottom:3px solid var(--terracotta);position:relative;overflow:hidden;
+  position:sticky;top:0;z-index:100;
+}
+header::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--terracotta),var(--gold),var(--terracotta));
+}
+.logo-wrap{display:flex;align-items:center;gap:.9rem;position:relative;z-index:1;}
+.logo-icon{width:44px;height:44px;flex-shrink:0;filter:drop-shadow(0 2px 6px rgba(0,0,0,.4));}
+.logo-text-wrap{display:flex;flex-direction:column;}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:3px;color:var(--cream);line-height:1;text-shadow:2px 2px 0 rgba(0,0,0,.3);}
+.logo span{color:var(--terracotta-light);}
+.subtitle{font-family:'Crimson Pro',serif;font-size:.75rem;color:var(--wood-light);letter-spacing:1.5px;font-style:italic;margin-top:1px;}
+.save-badge{
+  background:var(--sage);color:white;font-size:.7rem;padding:.3rem .75rem;
+  border-radius:999px;display:none;align-items:center;gap:.3rem;
+  animation:pulse 2s ease infinite;
+}
+.save-badge.visible{display:flex;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.7;}}
+
+/* ── APP CONTAINER ─────────────────────────────────────── */
+.app{
+  max-width:680px;margin:0 auto;
+  padding:1.5rem max(1rem, var(--safe-left)) calc(2rem + var(--safe-bottom)) max(1rem, var(--safe-right));
+}
+
+/* ── SECTION TITLES ────────────────────────────────────── */
+.section-title{font-family:'Crimson Pro',serif;font-size:1.4rem;font-weight:600;color:var(--brown);margin-bottom:.3rem;}
+.section-sub{font-size:.82rem;color:var(--sage);margin-bottom:1.2rem;}
+
+/* ── RESTORED BANNER ───────────────────────────────────── */
+.saved-banner{
+  background:var(--brown);color:var(--cream);border-radius:12px;
+  padding:.9rem 1.2rem;margin-bottom:1.5rem;display:none;
+  align-items:center;justify-content:space-between;gap:1rem;
+}
+.saved-banner.visible{display:flex;}
+.saved-banner-text{font-size:.85rem;}
+.saved-banner-text strong{font-family:'Crimson Pro',serif;font-size:1rem;display:block;margin-bottom:2px;}
+.restore-btn{
+  padding:.45rem 1rem;background:var(--terracotta);color:white;border:none;
+  border-radius:8px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:.82rem;
+  white-space:nowrap;-webkit-appearance:none;min-height:44px;
+}
+
+/* ── FOYER ─────────────────────────────────────────────── */
+.foyer-section{
+  background:var(--warm-white);border:1.5px solid var(--border);
+  border-radius:14px;padding:1.4rem;margin-bottom:1.5rem;
+}
+.foyer-grid{display:grid;grid-template-columns:1fr;gap:1.2rem;margin-top:.8rem;}
+.foyer-field label{
+  display:block;font-size:.75rem;font-weight:500;letter-spacing:1.5px;
+  text-transform:uppercase;color:#374151;margin-bottom:.45rem;
+}
+.foyer-field select{
+  width:100%;padding:.75rem 1rem;border:1.5px solid var(--border);border-radius:8px;
+  font-family:'DM Sans',sans-serif;font-size:1rem;color:var(--dark);background:white;
+  -webkit-appearance:none;outline:none;min-height:44px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235C3D1E' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 1rem center;padding-right:2.5rem;
+}
+.foyer-field select:focus{border-color:var(--terracotta);}
+.allergies-grid{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.5rem;}
+.allergy-btn{
+  padding:.45rem .8rem;border:1.5px solid var(--border);border-radius:999px;
+  background:white;font-family:'DM Sans',sans-serif;font-size:.8rem;color:var(--brown);
+  cursor:pointer;-webkit-appearance:none;min-height:36px;transition:all .2s;
+  user-select:none;-webkit-user-select:none;
+}
+.allergy-btn.active{background:var(--rust);border-color:var(--rust);color:white;}
+
+/* ── THEMES ────────────────────────────────────────────── */
+.themes-grid{display:flex;flex-wrap:wrap;gap:.6rem;margin-bottom:1.5rem;}
+.theme-btn{
+  display:flex;align-items:center;gap:.4rem;padding:.55rem 1rem;
+  border:2px solid var(--border);border-radius:999px;background:var(--warm-white);
+  cursor:pointer;font-family:'DM Sans',sans-serif;font-size:.88rem;color:var(--brown);
+  transition:all .2s;-webkit-appearance:none;min-height:40px;
+  user-select:none;-webkit-user-select:none;
+}
+.theme-btn.selected{background:var(--terracotta);border-color:var(--terracotta);color:white;}
+.selected-count{font-size:.82rem;color:var(--sage);margin-bottom:1.2rem;}
+.selected-count strong{color:var(--terracotta);}
+
+/* ── GENERATE BUTTON ───────────────────────────────────── */
+.generate-btn{
+  display:block;width:100%;padding:1rem;
+  background:linear-gradient(135deg,var(--brown),var(--wood));
+  color:white;border:none;border-radius:12px;
+  font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:2px;
+  cursor:pointer;transition:all .2s;margin-bottom:2rem;
+  -webkit-appearance:none;min-height:52px;
+}
+.generate-btn:disabled{opacity:.4;}
+.generate-btn:not(:disabled):active{transform:scale(.98);}
+
+/* ── LOADING ───────────────────────────────────────────── */
+.loading{display:none;text-align:center;padding:2.5rem;font-family:'Crimson Pro',serif;font-size:1.1rem;color:var(--brown);font-style:italic;}
+.loading.visible{display:block;}
+.dots::after{content:'...';animation:dots 1.2s steps(4,end) infinite;}
+@keyframes dots{0%,20%{content:'.'}40%{content:'..'}60%,100%{content:'...'}}
+
+/* ── RESULTS ───────────────────────────────────────────── */
+#results{display:none;}
+#results.visible{display:block;animation:fadeIn .4s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1}}
+
+/* ── WEEK HEADER ───────────────────────────────────────── */
+.week-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem;gap:.5rem;}
+.legend{display:flex;flex-direction:column;gap:.3rem;font-size:.75rem;}
+.legend-item{display:flex;align-items:center;gap:.35rem;color:var(--brown);}
+.legend-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0;}
+.legend-dot.lunch{background:var(--terracotta-light);}
+.legend-dot.dinner{background:var(--sage);}
+
+/* ── DAYS — MOBILE: vertical list, not 7-col grid ──────── */
+.days-list{display:flex;flex-direction:column;gap:.75rem;margin-bottom:2rem;}
+.day-card{
+  background:var(--warm-white);border:1.5px solid var(--border);
+  border-radius:12px;overflow:hidden;
+}
+.day-name{
+  background:linear-gradient(135deg,var(--wood),var(--wood-light));
+  color:white;padding:.45rem 1rem;font-family:'Bebas Neue',sans-serif;
+  font-size:.9rem;letter-spacing:2px;
+}
+.day-meals{padding:.6rem .75rem;display:grid;grid-template-columns:1fr 1fr;gap:.5rem;}
+.meal-item{
+  padding:.6rem .75rem;border-radius:8px;font-size:.82rem;line-height:1.35;
+  cursor:pointer;-webkit-tap-highlight-color:rgba(196,96,42,.15);
+  position:relative;transition:transform .15s;
+  min-height:70px;
+}
+.meal-item:active{transform:scale(.97);}
+.meal-item.lunch{background:#FFF3E8;border-left:3px solid var(--terracotta-light);}
+.meal-item.dinner{background:#EEF2EC;border-left:3px solid var(--sage);}
+.meal-label{font-size:.62rem;text-transform:uppercase;letter-spacing:1px;color:var(--sage);font-weight:500;margin-bottom:3px;}
+.meal-name{color:var(--dark);font-weight:500;font-size:.8rem;}
+.meal-theme-tag{display:inline-block;font-size:.6rem;background:var(--cream);color:var(--brown);border-radius:3px;padding:1px 5px;margin-top:3px;}
+.meal-item.has-warning::after{content:'⚠️';position:absolute;top:4px;right:4px;font-size:.7rem;}
+
+/* ── RECIPE MODAL ──────────────────────────────────────── */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(26,18,8,.8);z-index:1000;
+  display:flex;align-items:flex-end;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity .3s;
+}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+.modal{
+  background:var(--warm-white);border-radius:20px 20px 0 0;
+  width:100%;max-height:90vh;overflow-y:auto;
+  transform:translateY(100%);transition:transform .35s cubic-bezier(.34,1.1,.64,1);
+  padding-bottom:calc(1.5rem + var(--safe-bottom));
+  /* smooth iOS scroll */
+  -webkit-overflow-scrolling:touch;
+}
+.modal-overlay.open .modal{transform:translateY(0);}
+.modal-handle{width:40px;height:4px;background:var(--border);border-radius:999px;margin:12px auto 4px;}
+.modal-header{
+  background:linear-gradient(135deg,#3D2B1F,#5C3D1E);color:var(--cream);
+  padding:1.4rem 1.5rem 1.2rem;position:sticky;top:0;z-index:2;
+}
+.modal-tag{font-size:.65rem;letter-spacing:2px;text-transform:uppercase;color:var(--wood-light);margin-bottom:.4rem;}
+.modal-title{font-family:'Crimson Pro',serif;font-size:1.5rem;font-weight:600;line-height:1.2;}
+.modal-meta{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:.6rem;font-size:.78rem;color:var(--wood-light);}
+.modal-close{
+  position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,.15);border:none;
+  color:var(--cream);width:36px;height:36px;border-radius:50%;cursor:pointer;
+  font-size:1.1rem;display:flex;align-items:center;justify-content:center;
+}
+.modal-body{padding:1.4rem 1.5rem;}
+.modal-note{
+  background:#FFF3E8;border:1.5px solid var(--terracotta-light);border-radius:8px;
+  padding:.6rem 1rem;font-size:.82rem;color:var(--brown);margin-bottom:1rem;
+}
+.modal-note.warning{background:#FEE2E2;border-color:#F87171;color:#991B1B;}
+.recipe-section-title{
+  font-size:.7rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;
+  color:var(--terracotta);margin-bottom:.8rem;padding-bottom:.4rem;
+  border-bottom:1.5px solid var(--border);
+}
+.ingredients-grid{display:grid;grid-template-columns:1fr 1fr;gap:.35rem;margin-bottom:1.5rem;}
+@media(max-width:380px){.ingredients-grid{grid-template-columns:1fr;}}
+.ingredient-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.4rem .65rem;background:var(--cream);border-radius:6px;font-size:.83rem;gap:.4rem;
+}
+.ingredient-qty{color:var(--sage);font-size:.76rem;white-space:nowrap;}
+.steps-list{display:flex;flex-direction:column;gap:.85rem;}
+.step{display:flex;gap:.9rem;align-items:flex-start;padding:.85rem;background:var(--cream);border-radius:10px;}
+.step-num{
+  min-width:26px;height:26px;background:var(--terracotta);color:white;
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:.76rem;font-weight:600;flex-shrink:0;
+}
+.step-text{font-size:.86rem;line-height:1.6;padding-top:2px;}
+.chef-tip{
+  margin-top:1.3rem;padding:.9rem 1.1rem;
+  background:linear-gradient(135deg,#FFF3E8,#FDFAF4);
+  border:1.5px solid var(--terracotta-light);border-radius:10px;
+  font-size:.84rem;line-height:1.5;
+}
+.chef-tip strong{color:var(--terracotta);display:block;margin-bottom:.3rem;font-size:.73rem;letter-spacing:1px;text-transform:uppercase;}
+
+/* ── COURSES ───────────────────────────────────────────── */
+.courses-section{
+  background:var(--warm-white);border:1.5px solid var(--border);
+  border-radius:14px;padding:1.4rem;margin-bottom:1.5rem;
+}
+.courses-title{font-family:'Crimson Pro',serif;font-size:1.3rem;font-weight:600;color:var(--brown);margin-bottom:1.2rem;}
+.courses-grid{display:grid;grid-template-columns:1fr;gap:1.2rem;}
+@media(min-width:500px){.courses-grid{grid-template-columns:1fr 1fr;}}
+.course-category{background:var(--cream);border-radius:10px;padding:.9rem;}
+.cat-title{font-size:.72rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--terracotta);margin-bottom:.65rem;padding-bottom:.4rem;border-bottom:1.5px solid var(--border);}
+.course-item{display:flex;align-items:center;justify-content:space-between;padding:.32rem 0;font-size:.84rem;border-bottom:1px dotted var(--border);gap:.5rem;}
+.course-item:last-child{border-bottom:none;}
+.course-name{flex:1;color:var(--dark);}
+.course-qty{font-size:.74rem;color:var(--sage);white-space:nowrap;}
+
+/* ── ACTION BAR ────────────────────────────────────────── */
+.action-bar{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:1.4rem;}
+.action-btn{
+  padding:.75rem .8rem;border-radius:10px;border:2px solid var(--border);
+  background:white;font-family:'DM Sans',sans-serif;font-size:.85rem;cursor:pointer;
+  color:var(--brown);transition:all .15s;display:flex;align-items:center;justify-content:center;
+  gap:.35rem;min-height:44px;-webkit-appearance:none;
+}
+.action-btn.primary{background:var(--sage);border-color:var(--sage);color:white;}
+.action-btn.share{background:linear-gradient(135deg,#25D366,#128C7E);color:white;border-color:transparent;}
+.action-btn.danger{border-color:#D4A0A0;color:#9B3A3A;}
+.action-btn:active{transform:scale(.96);}
+
+/* ── SHARE BOTTOM SHEET ────────────────────────────────── */
+.share-overlay{
+  position:fixed;inset:0;background:rgba(26,18,8,.75);z-index:2000;
+  display:flex;align-items:flex-end;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity .3s;
+}
+.share-overlay.open{opacity:1;pointer-events:all;}
+.share-sheet{
+  background:var(--warm-white);border-radius:20px 20px 0 0;
+  width:100%;max-width:520px;
+  padding:1.2rem 1.2rem calc(1.5rem + var(--safe-bottom));
+  transform:translateY(100%);transition:transform .35s cubic-bezier(.34,1.2,.64,1);
+}
+.share-overlay.open .share-sheet{transform:translateY(0);}
+.share-handle{width:40px;height:4px;background:var(--border);border-radius:999px;margin:0 auto 1rem;}
+.share-title{font-family:'Crimson Pro',serif;font-size:1.2rem;font-weight:600;color:var(--brown);text-align:center;margin-bottom:.25rem;}
+.share-sub{font-size:.78rem;color:var(--sage);text-align:center;margin-bottom:1.2rem;}
+.share-options{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;margin-bottom:.9rem;}
+.share-opt{
+  display:flex;flex-direction:column;align-items:center;gap:.4rem;padding:.9rem .4rem;
+  border:1.5px solid var(--border);border-radius:12px;cursor:pointer;background:white;
+  font-family:'DM Sans',sans-serif;font-size:.76rem;color:var(--brown);text-align:center;
+  transition:all .2s;-webkit-appearance:none;min-height:44px;
+}
+.share-opt:active{background:#FFF6EE;border-color:var(--terracotta);transform:scale(.96);}
+.share-opt-icon{font-size:1.6rem;line-height:1;}
+.share-copy-row{display:flex;gap:.5rem;margin-top:.6rem;}
+.share-copy-input{
+  flex:1;padding:.7rem 1rem;border:1.5px solid var(--border);border-radius:8px;
+  font-size:.8rem;color:var(--dark);background:var(--cream);outline:none;
+  font-family:'DM Sans',sans-serif;
+}
+.share-copy-btn{
+  padding:.7rem .9rem;background:var(--terracotta);color:white;border:none;border-radius:8px;
+  cursor:pointer;font-size:.82rem;font-family:'DM Sans',sans-serif;white-space:nowrap;
+  -webkit-appearance:none;min-height:44px;
+}
+.share-close-btn{
+  display:block;width:100%;margin-top:.9rem;padding:.75rem;background:var(--cream);
+  border:1.5px solid var(--border);border-radius:10px;cursor:pointer;
+  font-family:'DM Sans',sans-serif;font-size:.88rem;color:var(--brown);
+  -webkit-appearance:none;min-height:44px;
+}
+
+/* ── TOAST ─────────────────────────────────────────────── */
+.toast{
+  position:fixed;bottom:calc(1.5rem + var(--safe-bottom));left:50%;
+  transform:translateX(-50%) translateY(100px);
+  background:var(--dark);color:var(--cream);padding:.75rem 1.4rem;
+  border-radius:999px;font-size:.88rem;z-index:9999;
+  transition:transform .4s cubic-bezier(.34,1.56,.64,1);
+  box-shadow:0 8px 30px rgba(0,0,0,.3);white-space:nowrap;
+}
+.toast.show{transform:translateX(-50%) translateY(0);}
+
+/* ── DIVIDER ───────────────────────────────────────────── */
+.divider{border:none;border-top:2px solid var(--border);margin:1.5rem 0;}
+
+/* ── FOOTER ────────────────────────────────────────────── */
+footer{
+  background:linear-gradient(135deg,#2C1F15,#3D2B1F);color:var(--wood-light);
+  text-align:center;padding:1.2rem 1rem calc(1.2rem + var(--safe-bottom));
+  font-size:.75rem;border-top:3px solid var(--terracotta);margin-top:2rem;
+}
+footer a{color:var(--gold);text-decoration:none;}
+.footer-logo{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:3px;color:var(--cream);margin-bottom:.3rem;}
+
+/* ── PRINT ─────────────────────────────────────────────── */
+@media print{
+  header .header-right,.themes-section,.foyer-section,.generate-btn,
+  .action-bar,.modal-overlay,.share-overlay,footer{display:none!important;}
+  #results{display:block!important;}
+  body{background:white;}
+}
+</style>
+</head>
+<body>
+
+<!-- RECIPE MODAL -->
+<div class="modal-overlay" id="recipeOverlay">
+  <div class="modal" id="recipeModal">
+    <div class="modal-handle"></div>
+    <div class="modal-header">
+      <div class="modal-tag" id="modalTag"></div>
+      <div class="modal-title" id="modalTitle"></div>
+      <div class="modal-meta" id="modalMeta"></div>
+      <button class="modal-close" id="btnCloseRecipe" aria-label="Fermer">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- SHARE BOTTOM SHEET -->
+<div class="share-overlay" id="shareOverlay">
+  <div class="share-sheet" id="shareSheet">
+    <div class="share-handle"></div>
+    <div class="share-title">📤 Partager la liste de courses</div>
+    <div class="share-sub">Envoie ta liste à toute la famille</div>
+    <div class="share-options">
+      <button class="share-opt" id="sWhatsapp"><span class="share-opt-icon">💬</span>WhatsApp</button>
+      <button class="share-opt" id="sSms"><span class="share-opt-icon">📱</span>SMS</button>
+      <button class="share-opt" id="sEmail"><span class="share-opt-icon">✉️</span>E-mail</button>
+      <button class="share-opt" id="sTelegram"><span class="share-opt-icon">✈️</span>Telegram</button>
+      <button class="share-opt" id="sNative"><span class="share-opt-icon">🔗</span>Partager…</button>
+      <button class="share-opt" id="sPrint"><span class="share-opt-icon">🖨️</span>Imprimer</button>
+    </div>
+    <div class="share-copy-row">
+      <input class="share-copy-input" id="shareCopyInput" readonly placeholder="Votre liste…">
+      <button class="share-copy-btn" id="sCopy">📋 Copier</button>
+    </div>
+    <button class="share-close-btn" id="btnCloseShare">✕ Fermer</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- HEADER -->
+<header>
+  <div class="logo-wrap">
+    <svg class="logo-icon" viewBox="0 0 58 58" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="27" cy="36" rx="20" ry="14" fill="#8B5E3C" stroke="#C49A6C" stroke-width="1.5"/>
+      <ellipse cx="27" cy="36" rx="17" ry="11" fill="#A0522D"/>
+      <ellipse cx="22" cy="30" rx="5" ry="3" fill="rgba(255,255,255,0.12)" transform="rotate(-15 22 30)"/>
+      <rect x="44" y="33" width="13" height="5" rx="2.5" fill="#6B7280" stroke="#9CA3AF" stroke-width="1"/>
+      <circle cx="46" cy="35.5" r="1.2" fill="#374151"/><circle cx="54" cy="35.5" r="1.2" fill="#374151"/>
+      <path d="M18 20 Q20 15 18 10" stroke="#C49A6C" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.7"/>
+      <path d="M26 18 Q28 12 26 7" stroke="#C49A6C" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.7"/>
+      <path d="M34 20 Q36 15 34 10" stroke="#C49A6C" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.7"/>
+      <line x1="6" y1="8" x2="6" y2="50" stroke="#9CA3AF" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M6 8 Q10 12 8 28 L6 28Z" fill="#6B7280"/>
+      <rect x="4" y="38" width="4" height="10" rx="2" fill="#8B5E3C" stroke="#C49A6C" stroke-width="0.8"/>
+    </svg>
+    <div class="logo-text-wrap">
+      <div class="logo">Keskon<span>manj</span></div>
+      <div class="subtitle">Planificateur · 7 jours</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="save-badge" id="saveBadge">💾 Sauvegardé</div>
+  </div>
+</header>
+
+<div class="app">
+  <div class="saved-banner" id="savedBanner">
+    <div class="saved-banner-text">
+      <strong>📅 Semaine sauvegardée !</strong>
+      Restaure ta semaine précédente.
+    </div>
+    <button class="restore-btn" id="btnRestore">🔄 Restaurer</button>
+  </div>
+
+  <div class="foyer-section">
+    <div class="section-title">Ton foyer</div>
+    <div class="section-sub">Adapte les quantités et les recettes</div>
+    <div class="foyer-grid">
+      <div class="foyer-field">
+        <label>👥 Nombre de personnes</label>
+        <select id="nbPersonnes">
+          <option value="1">1 personne</option>
+          <option value="2" selected>2 personnes</option>
+          <option value="3">3 personnes</option>
+          <option value="4">4 personnes</option>
+          <option value="5">5 personnes</option>
+          <option value="6">6 personnes et +</option>
+        </select>
+      </div>
+      <div class="foyer-field">
+        <label>⚠️ Allergies & intolérances</label>
+        <div class="allergies-grid" id="allergiesGrid"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">Thèmes de la semaine</div>
+  <div class="section-sub">Sélectionne 2 à 4 thèmes pour tes 14 repas</div>
+  <div class="themes-grid" id="themesGrid"></div>
+  <div class="selected-count" id="selectedCount"><strong>0</strong> thème(s) — choisis entre 2 et 4</div>
+  <button class="generate-btn" id="btnGenerate" disabled>🍽️ Générer ma semaine</button>
+
+  <div class="loading" id="loading">Le chef prépare ta semaine<span class="dots"></span></div>
+
+  <div id="results">
+    <div class="week-header">
+      <div>
+        <div class="section-title">📅 Ta semaine</div>
+        <div class="section-sub" style="margin-bottom:0">Appuie sur un repas pour la recette</div>
+      </div>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot lunch"></div>Déjeuner</div>
+        <div class="legend-item"><div class="legend-dot dinner"></div>Dîner</div>
+      </div>
+    </div>
+    <div class="days-list" id="daysGrid"></div>
+    <hr class="divider">
+    <div class="courses-section">
+      <div class="courses-title">🛒 Liste de courses</div>
+      <div class="action-bar">
+        <button class="action-btn primary" id="btnSave">💾 Sauvegarder</button>
+        <button class="action-btn share" id="btnShare">📤 Partager</button>
+        <button class="action-btn" id="btnPrint">🖨️ Imprimer</button>
+        <button class="action-btn danger" id="btnClear">🗑️ Effacer</button>
+      </div>
+      <div class="courses-grid" id="coursesGrid"></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">Keskonmanj</div>
+  <p>© 2026 — Propriété exclusive de <a href="#">fluide.cmpny</a>. Tous droits réservés.</p>
+</footer>
+
+<script>
+// ============================================================
+// STORAGE — Safari-safe (localStorage with graceful fallback)
+// ============================================================
+var _memStore = {};
+var Storage = {
+  get: function(k) {
+    try { return localStorage.getItem(k); } catch(e) { return _memStore[k] || null; }
+  },
+  set: function(k, v) {
+    try { localStorage.setItem(k, v); } catch(e) { _memStore[k] = v; }
+  },
+  remove: function(k) {
+    try { localStorage.removeItem(k); } catch(e) { delete _memStore[k]; }
+  }
+};
+
+// ============================================================
+// DATA
+// ============================================================
+var ALLERGIES = [
+  {id:'gluten',label:'🌾 Gluten'},{id:'lactose',label:'🥛 Lactose'},
+  {id:'oeuf',label:'🥚 Œufs'},{id:'poisson',label:'🐟 Poisson'},
+  {id:'crustaces',label:'🦐 Crustacés'},{id:'noix',label:'🥜 Fruits à coques'},
+  {id:'soja',label:'🫘 Soja'},{id:'porc',label:'🐷 Porc'},
+  {id:'vegetarien',label:'🥦 Végétarien'},{id:'vegan',label:'🌱 Vegan'},
+];
+var ALLERGEN_MAP = {
+  gluten:['pâtes','pain','spaghetti','penne','tagliatelle','linguine','naan','chapati','bun','toast','croque','quiche','tarte','gnocchi','farine','ramen','nouilles','soba','crêpe','galette','pizza','quesadilla','nachos','empanadas','samoussas','wrap','kebab','börek','panini'],
+  lactose:['fromage','crème','beurre','lait','mozzarella','parmesan','comté','gruyère','cheddar','feta','chèvre','reblochon','ricotta','burrata','fondue','raclette','tartiflette','gratin','carbonara','quiche','risotto','béchamel','yaourt','halloumi'],
+  oeuf:['œuf','omelette','carbonara','quiche','frittata','shakshuka','crêpe','pancake','soufflé','galette'],
+  poisson:['saumon','thon','cabillaud','sardine','hareng','dorade','poisson','anchois','morue'],
+  crustaces:['crevettes','moules','palourdes','poulpe','saint-jacques','bisque','fruits de mer','vongole','gambas'],
+  noix:['cacahuètes','noix','amandes','noisettes','pistaches','sésame','tahini','arachides','mafé'],
+  soja:['soja','tofu','miso','edamame'],
+  porc:['lardons','jambon','saucisse','chorizo','andouillette','porc','hot-dog','cassoulet','potée'],
+  vegetarien:['poulet','bœuf','veau','agneau','dinde','porc','lardons','jambon','saucisse','chorizo','saumon','thon','cabillaud','crevettes','moules','anchois','sardine','canard','gambas'],
+  vegan:['poulet','bœuf','veau','agneau','dinde','porc','lardons','jambon','saucisse','chorizo','saumon','thon','crevettes','moules','anchois','œuf','fromage','crème','beurre','lait','mozzarella','parmesan','feta','chèvre','ricotta','yaourt','halloumi','canard'],
+};
+
+var THEMES = [
+  {id:'asiatique',label:'Asiatique',emoji:'🥢'},{id:'mediterrane',label:'Méditerranéen',emoji:'🫒'},
+  {id:'gourmand',label:'Gourmand & réconfort',emoji:'🧀'},{id:'proteine',label:'Protéiné & sport',emoji:'💪'},
+  {id:'fastfood',label:'Fast-food maison',emoji:'🍔'},{id:'veggie',label:'Végétarien',emoji:'🥦'},
+  {id:'francais',label:'Cuisine française',emoji:'🥐'},{id:'rapide',label:'Rapide (< 20 min)',emoji:'⚡'},
+  {id:'exotique',label:'Exotique & épicé',emoji:'🌶️'},{id:'marmite',label:'Plats mijotés',emoji:'🫕'},
+  {id:'brunch',label:'Brunch & œufs',emoji:'🍳'},{id:'mer',label:'Fruits de mer & poisson',emoji:'🐟'},
+  {id:'batch',label:'Batch cooking',emoji:'📦'},{id:'saison',label:'De saison',emoji:'🌿'},
+  {id:'worldstreet',label:'Street food monde',emoji:'🌍'},{id:'salades',label:'Grandes salades-repas',emoji:'🥗'},
+  {id:'soupe',label:'Soupes & veloutés',emoji:'🍲'},{id:'plancha',label:'Plancha & grill',emoji:'🔥'},
+];
+
+var DAYS = ['Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche'];
+
+var MEAL_DB = {
+  asiatique:{
+    dejeuner:[
+      {name:'Bol de ramen poulet-miso',tag:'Asiatique'},{name:'Wok de bœuf sauté aux légumes',tag:'Asiatique'},
+      {name:'Poulet teriyaki & riz jasmin',tag:'Asiatique'},{name:'Soupe pho bœuf-herbes',tag:'Asiatique'},
+      {name:'Riz cantonnais œuf-jambon',tag:'Asiatique'},{name:'Curry vert thaï au tofu',tag:'Asiatique'},
+      {name:'Gyozas poêlés porc-gingembre',tag:'Asiatique'},
+    ],
+    diner:[
+      {name:'Pad thaï aux crevettes',tag:'Asiatique'},{name:'Salade de nouilles soba froides',tag:'Asiatique'},
+      {name:'Soupe tom kha champignons',tag:'Asiatique'},{name:'Riz sauté légumes-sauce soja',tag:'Asiatique'},
+      {name:'Nems maison sauce nuoc-mâm',tag:'Asiatique'},{name:'Bibimbap végétarien',tag:'Asiatique'},
+      {name:'Poulet au lait de coco-basilic thaï',tag:'Asiatique'},
+    ],
+  },
+  mediterrane:{
+    dejeuner:[
+      {name:'Salade grecque-feta',tag:'Méditerranéen'},{name:'Risotto citron-parmesan',tag:'Méditerranéen'},
+      {name:'Pasta tomates cerises-burrata',tag:'Méditerranéen'},{name:'Tajine poulet-citron confit-olives',tag:'Méditerranéen'},
+      {name:'Salade niçoise thon-anchois',tag:'Méditerranéen'},{name:'Moussaka agneau-aubergines',tag:'Méditerranéen'},
+      {name:'Bol falafel-houmous-légumes',tag:'Méditerranéen'},
+    ],
+    diner:[
+      {name:'Soupe minestrone aux légumes',tag:'Méditerranéen'},{name:'Bruschetta tomates-mozzarella',tag:'Méditerranéen'},
+      {name:'Poivrons farcis riz-agneau',tag:'Méditerranéen'},{name:'Penne à l\'arrabbiata',tag:'Méditerranéen'},
+      {name:'Houmous maison & crudités pita',tag:'Méditerranéen'},{name:'Gratin de courgettes feta-menthe',tag:'Méditerranéen'},
+      {name:'Poisson en papillote olives-thym',tag:'Méditerranéen'},
+    ],
+  },
+  gourmand:{
+    dejeuner:[
+      {name:'Gratin dauphinois & jambon cru',tag:'Gourmand'},{name:'Quiche lorraine maison',tag:'Gourmand'},
+      {name:'Croque-monsieur façon croque-chef',tag:'Gourmand'},{name:'Risotto chorizo-épinards',tag:'Gourmand'},
+      {name:'Tartiflette express au reblochon',tag:'Gourmand'},{name:'Pâtes carbonara à la française',tag:'Gourmand'},
+      {name:'Burger maison fromage-oignons caramélisés',tag:'Gourmand'},
+    ],
+    diner:[
+      {name:'Soupe à l\'oignon gratinée',tag:'Gourmand'},{name:'Omelette baveuse champignons-comté',tag:'Gourmand'},
+      {name:'Toast chèvre chaud-miel-noix',tag:'Gourmand'},{name:'Gnocchis poêlés beurre-sauge-parmesan',tag:'Gourmand'},
+      {name:'Poêlée pommes de terre-lardons',tag:'Gourmand'},{name:'Fondue au fromage pain de campagne',tag:'Gourmand'},
+      {name:'Raclette light solo',tag:'Gourmand'},
+    ],
+  },
+  proteine:{
+    dejeuner:[
+      {name:'Poulet grillé riz brun-brocolis',tag:'Sport'},{name:'Salade César thon-œuf dur',tag:'Sport'},
+      {name:'Blanc de dinde poêlé-quinoa-épinards',tag:'Sport'},{name:'Steak haché maison-patate douce',tag:'Sport'},
+      {name:'Bol protéiné avocat-pois chiches-poulet',tag:'Sport'},{name:'Saumon grillé lentilles-légumes',tag:'Sport'},
+      {name:'Omelette jambon-champignons',tag:'Sport'},
+    ],
+    diner:[
+      {name:'Velouté potimarron-lait de coco',tag:'Sport'},{name:'Salade lentilles-feta-noix',tag:'Sport'},
+      {name:'Escalope de veau citron-câpres',tag:'Sport'},{name:'Poisson vapeur haricots verts',tag:'Sport'},
+      {name:'Soupe miso tofu soyeux',tag:'Sport'},{name:'Cottage cheese-crudités-pain complet',tag:'Sport'},
+      {name:'Edamame-riz complet-saumon fumé',tag:'Sport'},
+    ],
+  },
+  fastfood:{
+    dejeuner:[
+      {name:'Smash burger double fromage',tag:'Fast-food'},{name:'Hot-dog maison moutarde-oignons',tag:'Fast-food'},
+      {name:'Wraps poulet-cheddar-salade',tag:'Fast-food'},{name:'Kebab maison sauce blanche',tag:'Fast-food'},
+      {name:'Pizza maison margherita-roquette',tag:'Fast-food'},{name:'Tacos mexicain poulet-guacamole',tag:'Fast-food'},
+      {name:'Burger végé halloumi-avocat',tag:'Fast-food'},
+    ],
+    diner:[
+      {name:'Nuggets poulet maison-frites four',tag:'Fast-food'},{name:'Quesadillas fromage-haricots',tag:'Fast-food'},
+      {name:'Pizza blanche ricotta-champignons',tag:'Fast-food'},{name:'Club sandwich toasté jambon-œuf',tag:'Fast-food'},
+      {name:'Nachos haricots-fromage-guac',tag:'Fast-food'},{name:'Naan-pizza chorizo-mozzarella',tag:'Fast-food'},
+      {name:'Panini thon-mozzarella-tomates',tag:'Fast-food'},
+    ],
+  },
+  veggie:{
+    dejeuner:[
+      {name:'Curry de pois chiches-épinards',tag:'Végétarien'},{name:'Tarte aux poireaux-brebis',tag:'Végétarien'},
+      {name:'Salade quinoa-betterave-noix-chèvre',tag:'Végétarien'},{name:'Risotto champignons-parmesan',tag:'Végétarien'},
+      {name:'Bowl riz-légumes rôtis-tahini',tag:'Végétarien'},{name:'Galettes de légumes sauce yaourt',tag:'Végétarien'},
+      {name:'Gnocchi épinards-ricotta',tag:'Végétarien'},
+    ],
+    diner:[
+      {name:'Soupe de lentilles-cumin-citron',tag:'Végétarien'},{name:'Œufs brouillés champignons-ciboulette',tag:'Végétarien'},
+      {name:'Velouté de courgette-basilic',tag:'Végétarien'},{name:'Tartelette tomates-moutarde-herbes',tag:'Végétarien'},
+      {name:'Röstis de courgettes-feta',tag:'Végétarien'},{name:'Soupe potiron-graines de courge',tag:'Végétarien'},
+      {name:'Avocat farci quinoa-citron-herbes',tag:'Végétarien'},
+    ],
+  },
+  francais:{
+    dejeuner:[
+      {name:'Pot-au-feu légumes-bœuf',tag:'Français'},{name:'Blanquette de veau riz créole',tag:'Français'},
+      {name:'Bœuf bourguignon express',tag:'Français'},{name:'Poulet rôti flageolets-ail',tag:'Français'},
+      {name:'Salade de gésiers confits-noix',tag:'Français'},{name:'Steak frites sauce au poivre',tag:'Français'},
+      {name:'Navarin d\'agneau printanier',tag:'Français'},
+    ],
+    diner:[
+      {name:'Vichyssoise froide poireaux',tag:'Français'},{name:'Soufflé au comté',tag:'Français'},
+      {name:'Gratin de chou-fleur béchamel',tag:'Français'},{name:'Salade lyonnaise lardons-œuf poché',tag:'Français'},
+      {name:'Crêpes salées jambon-champignons',tag:'Français'},{name:'Pissaladière oignons-anchois',tag:'Français'},
+      {name:'Veau Marengo & tagliatelles',tag:'Français'},
+    ],
+  },
+  rapide:{
+    dejeuner:[
+      {name:'Pâtes ail-huile-parmesan',tag:'Rapide'},{name:'Sandwich jambon-beurre-cornichons',tag:'Rapide'},
+      {name:'Salade composée thon-maïs-tomate',tag:'Rapide'},{name:'Omelette jambon-gruyère',tag:'Rapide'},
+      {name:'Toast avocat-œuf poché',tag:'Rapide'},{name:'Poulet mariné express & salade',tag:'Rapide'},
+      {name:'Bol de céréales légumes rôtis',tag:'Rapide'},
+    ],
+    diner:[
+      {name:'Soupe légumes surgelés-vermicelles',tag:'Rapide'},{name:'Tartines chèvre-miel-poire',tag:'Rapide'},
+      {name:'Yaourt grec-granola-miel',tag:'Rapide'},{name:'Œufs à la coque & mouillettes',tag:'Rapide'},
+      {name:'Salade tomates-mozzarella',tag:'Rapide'},{name:'Soupe express miso-tofu',tag:'Rapide'},
+      {name:'Pain perdu salé jambon-herbes',tag:'Rapide'},
+    ],
+  },
+  exotique:{
+    dejeuner:[
+      {name:'Mafé sénégalais poulet-arachides',tag:'Exotique'},{name:'Rendang bœuf indonésien',tag:'Exotique'},
+      {name:'Jerk chicken jamaïcain & riz haricots',tag:'Exotique'},{name:'Dhal de lentilles rouges-naan',tag:'Exotique'},
+      {name:'Shakshuka œufs-tomates-harissa',tag:'Exotique'},{name:'Empanadas thon-olives au four',tag:'Exotique'},
+      {name:'Pho bo vietnamien maison',tag:'Exotique'},
+    ],
+    diner:[
+      {name:'Soupe tom yam aux crevettes',tag:'Exotique'},{name:'Tabulé persil-menthe-boulgour',tag:'Exotique'},
+      {name:'Tortilla espagnole pomme de terre',tag:'Exotique'},{name:'Samoussas légumes-curry four',tag:'Exotique'},
+      {name:'Gaspacho andalou bien frais',tag:'Exotique'},{name:'Foul médamès-ail-citron',tag:'Exotique'},
+      {name:'Chapati-dhal express',tag:'Exotique'},
+    ],
+  },
+  marmite:{
+    dejeuner:[
+      {name:'Osso buco milanaise-gremolata',tag:'Mijoté'},{name:'Poulet basquaise sauce piment',tag:'Mijoté'},
+      {name:'Coq au vin blanc-champignons',tag:'Mijoté'},{name:'Tajine agneau-pruneaux-amandes',tag:'Mijoté'},
+      {name:'Joue de porc carottes-céleri',tag:'Mijoté'},{name:'Saucisse-lentilles du Puy',tag:'Mijoté'},
+      {name:'Daube provençale olives-herbes',tag:'Mijoté'},
+    ],
+    diner:[
+      {name:'Velouté poireaux-pommes de terre',tag:'Mijoté'},{name:'Ratatouille au four provençale',tag:'Mijoté'},
+      {name:'Cassoulet rapide haricots blancs',tag:'Mijoté'},{name:'Potée auvergnate chou-saucisse',tag:'Mijoté'},
+      {name:'Gratin de crozets beaufortain',tag:'Mijoté'},{name:'Soupe paysanne orge-légumes',tag:'Mijoté'},
+      {name:'Soupe de châtaignes-lard fumé',tag:'Mijoté'},
+    ],
+  },
+  brunch:{
+    dejeuner:[
+      {name:'Œufs Bénédicte sauce hollandaise',tag:'Brunch'},{name:'Pancakes beurre-sirop d\'érable',tag:'Brunch'},
+      {name:'Shakshuka poivrons-feta',tag:'Brunch'},{name:'Avocado toast œuf poché-sésame',tag:'Brunch'},
+      {name:'Omelette roulée jambon-herbes',tag:'Brunch'},{name:'Crêpes salées épinards-saumon fumé',tag:'Brunch'},
+      {name:'Bagel saumon fumé-cream cheese',tag:'Brunch'},
+    ],
+    diner:[
+      {name:'Frittata légumes du frigo',tag:'Brunch'},{name:'Galette sarrasin jambon-œuf-fromage',tag:'Brunch'},
+      {name:'Pain doré salé chèvre-miel-romarin',tag:'Brunch'},{name:'Velouté d\'asperges œuf mollet',tag:'Brunch'},
+      {name:'Tarte fine poireaux-saumon fumé',tag:'Brunch'},{name:'Bowl açaï-granola-banane-myrtilles',tag:'Brunch'},
+      {name:'Tartines nordiques hareng mariné-betterave',tag:'Brunch'},
+    ],
+  },
+  mer:{
+    dejeuner:[
+      {name:'Moules marinières frites maison',tag:'Mer'},{name:'Dos de cabillaud beurre blanc-câpres',tag:'Mer'},
+      {name:'Salade crevettes avocat-pamplemousse',tag:'Mer'},{name:'Linguine aux vongole',tag:'Mer'},
+      {name:'Tataki de thon sésame-ponzu',tag:'Mer'},{name:'Risotto aux fruits de mer',tag:'Mer'},
+      {name:'Saumon mi-cuit croûte sésame-miso',tag:'Mer'},
+    ],
+    diner:[
+      {name:'Velouté bisque de crevettes',tag:'Mer'},{name:'Tartare saumon-avocat-citron vert',tag:'Mer'},
+      {name:'Sardines grillées citron-persil',tag:'Mer'},{name:'Soupe de poisson rouille-croûtons',tag:'Mer'},
+      {name:'Saint-Jacques poêlées purée céleri',tag:'Mer'},{name:'Crevettes ail-beurre-persil',tag:'Mer'},
+      {name:'Carpaccio de dorade-huile d\'olive',tag:'Mer'},
+    ],
+  },
+  batch:{
+    dejeuner:[
+      {name:'Bol quinoa-légumes rôtis-pois chiches',tag:'Batch'},{name:'Wrap poulet rôti-crudités',tag:'Batch'},
+      {name:'Riz complet lentilles-carottes-cumin',tag:'Batch'},{name:'Salade batch haricots-œuf-thon',tag:'Batch'},
+      {name:'Gratin de légumes préparé d\'avance',tag:'Batch'},{name:'Soupe batch 5 légumes',tag:'Batch'},
+      {name:'Pâtes froides pesto-tomates séchées-mozzarella',tag:'Batch'},
+    ],
+    diner:[
+      {name:'Soupe de légumes batch du dimanche',tag:'Batch'},{name:'Riz sauté restes poulet-légumes',tag:'Batch'},
+      {name:'Bowl froid quinoa-avocat-tahini',tag:'Batch'},{name:'Tartines houmous-légumes batch',tag:'Batch'},
+      {name:'Omelette restes légumes rôtis',tag:'Batch'},{name:'Salade lentilles-herbes-vinaigrette',tag:'Batch'},
+      {name:'Purée pois chiches épicée-crudités',tag:'Batch'},
+    ],
+  },
+  saison:{
+    dejeuner:[
+      {name:'Velouté céleri-rave-pomme verte',tag:'De saison'},{name:'Endives braisées jambon-béchamel',tag:'De saison'},
+      {name:'Tarte tatin endives-chèvre-noix',tag:'De saison'},{name:'Poireaux fondants vinaigrette-œuf mimosa',tag:'De saison'},
+      {name:'Risotto topinambour-noisettes-parmesan',tag:'De saison'},{name:'Gratin chou blanc lardons-comté',tag:'De saison'},
+      {name:'Salade mâche betterave-noix-chèvre chaud',tag:'De saison'},
+    ],
+    diner:[
+      {name:'Soupe potimarron-gingembre-coco',tag:'De saison'},{name:'Salade mâche-poire-noix-roquefort',tag:'De saison'},
+      {name:'Velouté poireaux-pomme de terre',tag:'De saison'},{name:'Röstis de céleri-rave sauce moutarde',tag:'De saison'},
+      {name:'Soupe au chou vert-saucisse fumée',tag:'De saison'},{name:'Betterave rôtie four-feta-miel',tag:'De saison'},
+      {name:'Gratin courge butternut-gruyère',tag:'De saison'},
+    ],
+  },
+  worldstreet:{
+    dejeuner:[
+      {name:'Tacos al pastor porc-ananas',tag:'Street food'},{name:'Bánh mì poulet-pickles-coriandre',tag:'Street food'},
+      {name:'Falafel pita-houmous-tahini',tag:'Street food'},{name:'Okonomiyaki japonais chou-porc',tag:'Street food'},
+      {name:'Arepas maïs-poulet-avocat',tag:'Street food'},{name:'Börek turc épinards-feta',tag:'Street food'},
+      {name:'Dosa crêpe indienne-chutney coco',tag:'Street food'},
+    ],
+    diner:[
+      {name:'Gyozas poêlés-vapeur sauce ponzu',tag:'Street food'},{name:'Gözleme turc fromage-épinards',tag:'Street food'},
+      {name:'Samosas légumes-menthe chutney',tag:'Street food'},{name:'Tteokbokki gâteaux de riz épicés',tag:'Street food'},
+      {name:'Momo tibétain vapeur-bœuf',tag:'Street food'},{name:'Elotes maïs grillé-mayo-fromage',tag:'Street food'},
+      {name:'Pão de queijo brésilien fromage',tag:'Street food'},
+    ],
+  },
+  salades:{
+    dejeuner:[
+      {name:'Salade César poulet grillé-croûtons',tag:'Salade-repas'},{name:'Bowl thaï bœuf-mangue-cacahuètes',tag:'Salade-repas'},
+      {name:'Niçoise thon-haricots verts-anchois',tag:'Salade-repas'},{name:'Fattoush libanais-pain grillé-sumac',tag:'Salade-repas'},
+      {name:'Salade mexicaine poulet-haricots noirs',tag:'Salade-repas'},{name:'Salade boulgour-légumes rôtis-halloumi',tag:'Salade-repas'},
+      {name:'Salade poulpe grillé-pommes de terre',tag:'Salade-repas'},
+    ],
+    diner:[
+      {name:'Salade lentilles beluga-betterave-chèvre',tag:'Salade-repas'},{name:'Panzanella tomates-pain-basilic',tag:'Salade-repas'},
+      {name:'Salade kale-quinoa-grenade',tag:'Salade-repas'},{name:'Salade nordique saumon-pomme-aneth',tag:'Salade-repas'},
+      {name:'Salade orzo-courgettes-feta-menthe',tag:'Salade-repas'},{name:'Waldorf revisitée poulet-céleri-noix',tag:'Salade-repas'},
+      {name:'Salade riz complet-thon-herbes',tag:'Salade-repas'},
+    ],
+  },
+  soupe:{
+    dejeuner:[
+      {name:'Soupe pois cassés-lard fumé',tag:'Soupe'},{name:'Velouté carottes-coco-gingembre',tag:'Soupe'},
+      {name:'Minestrone complet pâtes-légumes',tag:'Soupe'},{name:'Ramen maison poulet-champignons-nori',tag:'Soupe'},
+      {name:'Harira marocaine agneau-pois chiches',tag:'Soupe'},{name:'Soupe tomates rôties-basilic',tag:'Soupe'},
+      {name:'Goulash hongroise bœuf-paprika',tag:'Soupe'},
+    ],
+    diner:[
+      {name:'Velouté champignons-crème-cerfeuil',tag:'Soupe'},{name:'Soupe à l\'ail-pain-huile d\'olive',tag:'Soupe'},
+      {name:'Pho végétarien champignons-tofu',tag:'Soupe'},{name:'Soupe haricots blancs-romarin',tag:'Soupe'},
+      {name:'Gazpacho betterave-yaourt-aneth',tag:'Soupe'},{name:'Soupe miso renforcée tofu-légumes',tag:'Soupe'},
+      {name:'Bouillon thaï crevettes-citronnelle',tag:'Soupe'},
+    ],
+  },
+  plancha:{
+    dejeuner:[
+      {name:'Magret de canard plancha-figues',tag:'Plancha'},{name:'Crevettes plancha ail-beurre-citron',tag:'Plancha'},
+      {name:'Côte de porc plancha-moutarde-thym',tag:'Plancha'},{name:'Légumes grillés plancha-houmous',tag:'Plancha'},
+      {name:'Saumon plancha sauce teriyaki-sésame',tag:'Plancha'},{name:'Poulet mariné citron-herbes plancha',tag:'Plancha'},
+      {name:'Calamars plancha ail-persil-citron',tag:'Plancha'},
+    ],
+    diner:[
+      {name:'Halloumi grillé-tomates-olives',tag:'Plancha'},{name:'Gambas flambées cognac-beurre',tag:'Plancha'},
+      {name:'Légumes saison grillés-pesto',tag:'Plancha'},{name:'Brochettes poulet-poivrons sauce yaourt',tag:'Plancha'},
+      {name:'Saint-Jacques plancha-beurre blanc',tag:'Plancha'},{name:'Tomates farcies grillées plancha',tag:'Plancha'},
+      {name:'Ananas grillé coco-rhum-vanille',tag:'Plancha'},
+    ],
+  },
+};
+
+// ============================================================
+// RECIPE DB (subset — principaux plats)
+// ============================================================
+var RECIPE_DB = {
+  'Salade grecque-feta':{temps:'10 min',difficulte:'Facile',baseIngredients:[{name:'Tomates',q:2,u:'grosses'},{name:'Concombre',q:.5,u:''},{name:'Feta',q:80,u:'g'},{name:'Olives noires',q:40,u:'g'},{name:'Oignon rouge',q:.25,u:''},{name:'Huile d\'olive',q:2,u:'c.à s.'},{name:'Origan séché',q:.5,u:'c.à c.'},{name:'Citron',q:.5,u:''}],steps:['Couper les tomates en quartiers et le concombre en demi-rondelles.','Émincer finement l\'oignon rouge.','Disposer tous les légumes dans un plat. Ajouter les olives.','Émietter grossièrement la feta par-dessus.','Arroser d\'huile d\'olive et de jus de citron.','Saupoudrer d\'origan. Servir immédiatement.'],tip:'Ne mélangez pas — la salade grecque authentique se dresse en couches.'},
+  'Pasta tomates cerises-burrata':{temps:'15 min',difficulte:'Facile',baseIngredients:[{name:'Pâtes',q:100,u:'g'},{name:'Tomates cerises',q:150,u:'g'},{name:'Burrata',q:.5,u:'boule'},{name:'Ail',q:1,u:'gousse'},{name:'Basilic frais',q:5,u:'feuilles'},{name:'Huile d\'olive',q:2,u:'c.à s.'},{name:'Piment en flocons',q:1,u:'pincée'}],steps:['Cuire les pâtes al dente. Réserver une louche d\'eau de cuisson.','Chauffer l\'huile, faire revenir l\'ail émincé 1 min.','Ajouter les tomates cerises, cuire 6 min en les écrasant légèrement.','Ajouter une pincée de piment. Verser les pâtes avec un peu d\'eau de cuisson.','Mélanger 1 min à feu vif.','Dresser avec la burrata au centre et les feuilles de basilic.'],tip:'L\'eau de cuisson féculente lie la sauce et la fait adhérer aux pâtes.'},
+  'Poulet teriyaki & riz jasmin':{temps:'20 min',difficulte:'Facile',baseIngredients:[{name:'Filet de poulet',q:180,u:'g'},{name:'Sauce soja',q:3,u:'c.à s.'},{name:'Miel',q:1.5,u:'c.à s.'},{name:'Vinaigre de riz',q:1,u:'c.à s.'},{name:'Riz jasmin',q:80,u:'g'},{name:'Ail',q:1,u:'gousse'},{name:'Gingembre râpé',q:1,u:'c.à c.'},{name:'Graines de sésame',q:.5,u:'c.à c.'}],steps:['Cuire le riz selon le paquet.','Mélanger sauce soja, miel, vinaigre, ail et gingembre.','Couper le poulet en tranches. Saisir à feu vif 3-4 min de chaque côté.','Verser la sauce teriyaki, laisser caraméliser 2-3 min.','Servir sur le riz, parsemer de sésame et ciboule.'],tip:'Ne lésinez pas sur la chaleur au départ — la croûte caramélisée est l\'âme du teriyaki.'},
+  'Smash burger double fromage':{temps:'15 min',difficulte:'Facile',baseIngredients:[{name:'Bœuf haché 15%MG',q:200,u:'g'},{name:'Cheddar tranché',q:2,u:'tranches'},{name:'Bun brioché',q:1,u:''},{name:'Oignon',q:.5,u:''},{name:'Cornichons',q:5,u:''},{name:'Ketchup',q:1,u:'c.à s.'},{name:'Moutarde',q:1,u:'c.à c.'}],steps:['Caraméliser l\'oignon émincé 7 min au beurre à feu doux.','Diviser la viande en deux boules. Ne pas trop travailler.','Chauffer la poêle en fonte à feu très vif.','Poser une boule et aplatir fort immédiatement. Saler. Cuire 1 min 30.','Retourner, poser le cheddar, couvrir 30 sec. Répéter.','Toaster le bun. Monter : ketchup, oignons, cornichons, steaks, moutarde.'],tip:'La poêle doit vraiment fumer — c\'est la réaction de Maillard qui crée la croûte signature.'},
+  'Quiche lorraine maison':{temps:'50 min',difficulte:'Moyen',baseIngredients:[{name:'Pâte brisée',q:.25,u:'rouleau'},{name:'Lardons fumés',q:100,u:'g'},{name:'Œufs',q:2,u:''},{name:'Crème fraîche épaisse',q:150,u:'ml'},{name:'Gruyère râpé',q:50,u:'g'},{name:'Noix de muscade',q:1,u:'pincée'}],steps:['Préchauffer le four à 180°C. Foncer un moule avec la pâte.','Faire revenir les lardons à sec. Égoutter.','Battre les œufs avec la crème, la muscade, sel et poivre.','Cuire la pâte à blanc 10 min avec poids. Enlever les poids.','Répartir les lardons, verser l\'appareil, parsemer de gruyère.','Cuire 25-30 min. Le centre doit être encore légèrement tremblotant.'],tip:'L\'appareil tremblotant en sortie de four est normal — il finit de cuire et reste moelleux.'},
+  'Curry de pois chiches-épinards':{temps:'20 min',difficulte:'Facile',baseIngredients:[{name:'Pois chiches en boîte',q:200,u:'g'},{name:'Épinards frais',q:100,u:'g'},{name:'Tomates concassées',q:200,u:'g'},{name:'Lait de coco',q:100,u:'ml'},{name:'Oignon',q:1,u:''},{name:'Ail',q:2,u:'gousses'},{name:'Garam masala',q:1,u:'c.à c.'},{name:'Riz basmati',q:80,u:'g'}],steps:['Cuire le riz basmati selon le paquet.','Faire revenir l\'oignon émincé 5 min. Ajouter l\'ail et les épices, cuire 1 min.','Ajouter les tomates concassées, cuire 5 min.','Verser le lait de coco et les pois chiches égouttés. Mijoter 8 min.','Ajouter les épinards, mélanger jusqu\'à ce qu\'ils tombent.','Servir sur le riz avec yaourt grec et coriandre.'],tip:'Ajoutez une c.à c. de jus de citron en fin — l\'acidité réveille tous les arômes du curry.'},
+  'Risotto citron-parmesan':{temps:'30 min',difficulte:'Moyen',baseIngredients:[{name:'Riz Arborio',q:80,u:'g'},{name:'Bouillon de légumes chaud',q:500,u:'ml'},{name:'Parmesan râpé',q:50,u:'g'},{name:'Beurre',q:30,u:'g'},{name:'Oignon',q:.5,u:''},{name:'Vin blanc sec',q:80,u:'ml'},{name:'Citron (zeste + jus)',q:.5,u:''},{name:'Huile d\'olive',q:1,u:'c.à s.'}],steps:['Faire suer l\'oignon dans l\'huile et la moitié du beurre 4 min.','Ajouter le riz et nacrer 2 min en remuant.','Déglacer au vin blanc. Remuer jusqu\'à absorption complète.','Ajouter le bouillon louche par louche en remuant, 18 min.','Hors du feu, incorporer beurre, parmesan, zeste et jus de citron.','Couvrir 2 min puis servir dans des assiettes creuses chaudes.'],tip:'La mantecatura (beurre + parmesan hors du feu) est le secret du risotto crémeux.'},
+  'Shakshuka œufs-tomates-harissa':{temps:'25 min',difficulte:'Facile',baseIngredients:[{name:'Œufs',q:2,u:''},{name:'Tomates concassées',q:400,u:'g'},{name:'Poivron rouge',q:1,u:''},{name:'Oignon',q:1,u:''},{name:'Harissa',q:1,u:'c.à c.'},{name:'Cumin & paprika',q:1,u:'c.à c.'},{name:'Ail',q:2,u:'gousses'},{name:'Coriandre fraîche',q:1,u:'bouquet'}],steps:['Faire revenir l\'oignon et le poivron en dés 5 min.','Ajouter l\'ail, le cumin, le paprika et la harissa. Cuire 1 min.','Verser les tomates. Cuire 10 min jusqu\'à sauce épaissie.','Créer des niches dans la sauce, casser les œufs dedans.','Couvrir et cuire 5-7 min — blanc pris, jaune coulant.','Parsemer de coriandre et servir avec pain pita chaud.'],tip:'Surveillez les œufs à partir de 5 min — jaune encore tremblotant = parfait.'},
+  'Pâtes carbonara à la française':{temps:'20 min',difficulte:'Moyen',baseIngredients:[{name:'Spaghetti',q:100,u:'g'},{name:'Lardons fumés',q:80,u:'g'},{name:'Œufs',q:2,u:''},{name:'Parmesan ou gruyère râpé',q:50,u:'g'},{name:'Crème fraîche',q:2,u:'c.à s.'},{name:'Poivre noir',q:1,u:'pincée généreuse'},{name:'Ail',q:1,u:'gousse'}],steps:['Cuire les spaghetti al dente. Réserver une grande tasse d\'eau de cuisson.','Faire revenir les lardons et l\'ail sans ajout de matière grasse.','Mélanger dans un bol : œufs entiers, crème, fromage, poivre noir généreux.','Égoutter les pâtes, les jeter dans la poêle avec les lardons hors du feu.','Verser le mélange œuf-crème en mélangeant vigoureusement. Ajouter de l\'eau de cuisson.','Le mélange doit être crémeux — jamais brouillé.'],tip:'Hors du feu est la règle d\'or — la chaleur résiduelle suffit.'},
+  'Toast avocat-œuf poché':{temps:'12 min',difficulte:'Facile',baseIngredients:[{name:'Pain complet ou seigle',q:2,u:'tranches'},{name:'Avocat mûr',q:1,u:''},{name:'Œuf',q:1,u:''},{name:'Citron',q:.25,u:''},{name:'Piment en flocons',q:1,u:'pincée'},{name:'Graines de sésame',q:.5,u:'c.à c.'},{name:'Fleur de sel',q:1,u:'pincée'}],steps:['Toaster le pain.','Écraser l\'avocat avec jus de citron, sel et poivre. Garder de la texture.','Porter de l\'eau à frémissement avec un filet de vinaigre. Créer un tourbillon.','Casser l\'œuf dans un petit bol, glisser doucement dans l\'eau. Cuire 3 min. Égoutter.','Étaler l\'avocat sur le toast.','Poser l\'œuf poché, parsemer de sésame, piment et fleur de sel.'],tip:'L\'œuf poché parfait : blanc entièrement pris, jaune encore coulant. Comptez 3 minutes chrono.'},
+  'Salade César poulet grillé-croûtons':{temps:'20 min',difficulte:'Facile',baseIngredients:[{name:'Filet de poulet',q:150,u:'g'},{name:'Laitue romaine',q:.5,u:''},{name:'Croûtons à l\'ail',q:30,u:'g'},{name:'Parmesan',q:25,u:'g'},{name:'Mayonnaise',q:1,u:'c.à s.'},{name:'Anchois',q:1,u:'filet'},{name:'Ail',q:.5,u:'gousse'},{name:'Jus de citron',q:1,u:'c.à s.'}],steps:['Assaisonner le poulet. Cuire à la poêle 5-6 min de chaque côté. Laisser reposer 3 min puis trancher.','Préparer la sauce César : mayo, anchois écrasé, ail râpé, citron, sel, poivre.','Déchirer la romaine en morceaux.','Mélanger la romaine avec la sauce César.','Dresser avec les tranches de poulet, les croûtons et les copeaux de parmesan.','Poivrer généreusement au moulin.'],tip:'L\'anchois dans la sauce César est indispensable — il donne l\'umami qui rend la sauce addictive.'},
+  'Moules marinières frites maison':{temps:'25 min',difficulte:'Facile',baseIngredients:[{name:'Moules fraîches',q:500,u:'g'},{name:'Vin blanc sec',q:150,u:'ml'},{name:'Échalotes',q:2,u:''},{name:'Ail',q:1,u:'gousse'},{name:'Persil plat',q:.5,u:'bouquet'},{name:'Beurre',q:30,u:'g'},{name:'Pommes de terre',q:250,u:'g'}],steps:['Gratter et laver les moules. Jeter celles ouvertes qui ne se ferment pas.','Faire revenir échalotes et ail dans le beurre 2 min. Verser le vin blanc.','Verser les moules, couvrir et cuire à feu vif 3-5 min jusqu\'à ouverture.','Cuire les pommes de terre en frites au four 200°C 20 min.','Parsemer les moules de persil haché. Jeter celles restées fermées.','Servir avec les frites et pain de campagne.'],tip:'Les moules doivent être fermées avant cuisson et ouvertes après.'},
+};
+
+// ============================================================
+// STATE
+// ============================================================
+var activeAllergies = new Set();
+var selectedThemes = new Set();
+var currentLunches = [];
+var currentDinners = [];
+var currentCourses = {};
+
+// ============================================================
+// HELPERS
+// ============================================================
+function mealHasAllergen(name) {
+  if (!activeAllergies.size) return false;
+  var lc = name.toLowerCase();
+  for (var a of activeAllergies) {
+    var kw = ALLERGEN_MAP[a] || [];
+    if (kw.some(function(k){ return lc.includes(k.toLowerCase()); })) return true;
+  }
+  return false;
+}
+function shuffle(arr) { return arr.slice().sort(function(){ return Math.random() - .5; }); }
+function showToast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 3000);
+}
+
+// ============================================================
+// RENDER ALLERGIES + THEMES
+// ============================================================
+function renderAllergies() {
+  var grid = document.getElementById('allergiesGrid');
+  ALLERGIES.forEach(function(a) {
+    var btn = document.createElement('button');
+    btn.className = 'allergy-btn';
+    btn.textContent = a.label;
+    btn.addEventListener('click', function() {
+      if (activeAllergies.has(a.id)) { activeAllergies.delete(a.id); btn.classList.remove('active'); }
+      else { activeAllergies.add(a.id); btn.classList.add('active'); }
+    });
+    grid.appendChild(btn);
+  });
+}
+
+function renderThemes() {
+  var grid = document.getElementById('themesGrid');
+  THEMES.forEach(function(t) {
+    var btn = document.createElement('button');
+    btn.className = 'theme-btn';
+    btn.innerHTML = '<span>' + t.emoji + '</span> ' + t.label;
+    btn.addEventListener('click', function() {
+      if (selectedThemes.has(t.id)) { selectedThemes.delete(t.id); btn.classList.remove('selected'); }
+      else {
+        if (selectedThemes.size >= 4) { showToast('⚠️ Maximum 4 thèmes'); return; }
+        selectedThemes.add(t.id); btn.classList.add('selected');
+      }
+      var c = selectedThemes.size;
+      document.getElementById('selectedCount').innerHTML = '<strong>' + c + '</strong> thème(s) — choisis entre 2 et 4';
+      document.getElementById('btnGenerate').disabled = c < 2;
+    });
+    grid.appendChild(btn);
+  });
+}
+
+// ============================================================
+// GENERATE WEEK
+// ============================================================
+function pickMeals(themes, slot) {
+  var result = [];
+  var perTheme = Math.ceil(7 / themes.length);
+  themes.forEach(function(t) {
+    var pool = shuffle(MEAL_DB[t] && MEAL_DB[t][slot] ? MEAL_DB[t][slot] : []);
+    pool.slice(0, perTheme).forEach(function(m){ result.push(m); });
+  });
+  return shuffle(result).slice(0, 7);
+}
+
+function generate() {
+  if (selectedThemes.size < 2) return;
+  document.getElementById('loading').classList.add('visible');
+  document.getElementById('results').classList.remove('visible');
+  setTimeout(function() {
+    var themes = Array.from(selectedThemes);
+    currentLunches = pickMeals(themes, 'dejeuner');
+    currentDinners = pickMeals(themes, 'diner');
+    renderWeek(currentLunches, currentDinners);
+    var p = document.getElementById('nbPersonnes').value;
+    currentCourses = generateCourses(currentLunches.concat(currentDinners), p);
+    renderCourses(currentCourses);
+    document.getElementById('loading').classList.remove('visible');
+    document.getElementById('results').classList.add('visible');
+    document.getElementById('results').scrollIntoView({ behavior:'smooth', block:'start' });
+  }, 800);
+}
+
+function renderWeek(lunches, dinners) {
+  var dg = document.getElementById('daysGrid');
+  dg.innerHTML = '';
+  DAYS.forEach(function(day, i) {
+    var l = lunches[i] || { name:'—', tag:'' };
+    var d = dinners[i] || { name:'—', tag:'' };
+    var lw = mealHasAllergen(l.name);
+    var dw = mealHasAllergen(d.name);
+    var card = document.createElement('div');
+    card.className = 'day-card';
+    var lData = JSON.stringify(l).replace(/'/g, '&#39;');
+    var dData = JSON.stringify(d).replace(/'/g, '&#39;');
+    card.innerHTML =
+      '<div class="day-name">' + day + '</div>' +
+      '<div class="day-meals">' +
+        '<div class="meal-item lunch' + (lw?' has-warning':'') + '" data-idx="l' + i + '">' +
+          '<div class="meal-label">☀️ Déjeuner</div>' +
+          '<div class="meal-name">' + l.name + '</div>' +
+          (l.tag ? '<div class="meal-theme-tag">' + l.tag + '</div>' : '') +
+        '</div>' +
+        '<div class="meal-item dinner' + (dw?' has-warning':'') + '" data-idx="d' + i + '">' +
+          '<div class="meal-label">🌙 Dîner</div>' +
+          '<div class="meal-name">' + d.name + '</div>' +
+          (d.tag ? '<div class="meal-theme-tag">' + d.tag + '</div>' : '') +
+        '</div>' +
+      '</div>';
+    card.querySelector('[data-idx="l' + i + '"]').addEventListener('click', function(){ openRecipe(l); });
+    card.querySelector('[data-idx="d' + i + '"]').addEventListener('click', function(){ openRecipe(d); });
+    dg.appendChild(card);
+  });
+}
+
+// ============================================================
+// COURSES
+// ============================================================
+function generateCourses(meals, persons) {
+  var p = parseInt(persons) || 1;
+  var c = {
+    '🥩 Viandes & Poissons': [],
+    '🥦 Légumes & Fruits': [],
+    '🧀 Crémerie': [],
+    '🌾 Épicerie & Féculents': [],
+    '🫙 Conserves & Sauces': [],
+    '🌿 Herbes & Épices': []
+  };
+  var names = meals.map(function(m){ return m.name.toLowerCase(); });
+  var qG = function(g){ return (g*p) + ' g'; };
+  var qt = function(n,u){ return (n*p) + ' ' + u; };
+
+  if (names.some(function(n){ return n.includes('poulet') || n.includes('dinde'); })) c['🥩 Viandes & Poissons'].push({name:'Filets de poulet/dinde',qty:qG(300)});
+  if (names.some(function(n){ return n.includes('bœuf') || n.includes('steak') || n.includes('smash'); })) c['🥩 Viandes & Poissons'].push({name:'Bœuf',qty:qG(200)});
+  if (names.some(function(n){ return n.includes('saumon'); })) c['🥩 Viandes & Poissons'].push({name:'Pavés de saumon',qty:qt(1,'pavé/pers.')});
+  if (names.some(function(n){ return n.includes('thon'); })) c['🥩 Viandes & Poissons'].push({name:'Thon en boîte',qty:qt(1,'boîte')});
+  if (names.some(function(n){ return n.includes('crevettes') || n.includes('gambas'); })) c['🥩 Viandes & Poissons'].push({name:'Crevettes/Gambas',qty:qG(150)});
+  if (names.some(function(n){ return n.includes('jambon'); })) c['🥩 Viandes & Poissons'].push({name:'Jambon blanc/cru',qty:qG(80)});
+  if (names.some(function(n){ return n.includes('lardons'); })) c['🥩 Viandes & Poissons'].push({name:'Lardons fumés',qty:qG(100)});
+  if (names.some(function(n){ return n.includes('agneau'); })) c['🥩 Viandes & Poissons'].push({name:'Agneau',qty:qG(250)});
+  if (names.some(function(n){ return n.includes('saucisse') || n.includes('chorizo'); })) c['🥩 Viandes & Poissons'].push({name:'Saucisses/Chorizo',qty:qG(150)});
+  if (names.some(function(n){ return n.includes('moules'); })) c['🥩 Viandes & Poissons'].push({name:'Moules fraîches',qty:qG(500)});
+
+  if (names.some(function(n){ return n.includes('tomat'); })) c['🥦 Légumes & Fruits'].push({name:'Tomates',qty:qG(300)});
+  if (names.some(function(n){ return n.includes('courgette'); })) c['🥦 Légumes & Fruits'].push({name:'Courgettes',qty:qt(2,'pièces')});
+  if (names.some(function(n){ return n.includes('champignon'); })) c['🥦 Légumes & Fruits'].push({name:'Champignons',qty:qG(200)});
+  if (names.some(function(n){ return n.includes('épinard'); })) c['🥦 Légumes & Fruits'].push({name:'Épinards frais',qty:qG(150)});
+  if (names.some(function(n){ return n.includes('avocat'); })) c['🥦 Légumes & Fruits'].push({name:'Avocats',qty:qt(1,'pièce/pers.')});
+  if (names.some(function(n){ return n.includes('pomme de terre') || n.includes('frites') || n.includes('gratin'); })) c['🥦 Légumes & Fruits'].push({name:'Pommes de terre',qty:qG(500)});
+  if (names.some(function(n){ return n.includes('poivron'); })) c['🥦 Légumes & Fruits'].push({name:'Poivrons',qty:qt(2,'pièces')});
+  if (names.some(function(n){ return n.includes('carotte'); })) c['🥦 Légumes & Fruits'].push({name:'Carottes',qty:qt(3,'pièces')});
+  c['🥦 Légumes & Fruits'].push({name:'Oignons',qty:'1 filet'},{name:'Ail',qty:'1 tête'},{name:'Citrons',qty:qt(2,'pièces')});
+
+  c['🧀 Crémerie'].push({name:'Œufs',qty:qt(6,'pièces')},{name:'Beurre',qty:'250 g'},{name:'Crème fraîche',qty:p<=2?'40 cl':'80 cl'},{name:'Lait',qty:p<=2?'1 L':'2 L'});
+  if (names.some(function(n){ return n.includes('parmesan') || n.includes('risotto'); })) c['🧀 Crémerie'].push({name:'Parmesan râpé',qty:qG(60)});
+  if (names.some(function(n){ return n.includes('mozzarella') || n.includes('burrata'); })) c['🧀 Crémerie'].push({name:'Mozzarella',qty:qt(1,'boule')});
+  if (names.some(function(n){ return n.includes('feta'); })) c['🧀 Crémerie'].push({name:'Feta',qty:qG(150)});
+  if (names.some(function(n){ return n.includes('chèvre'); })) c['🧀 Crémerie'].push({name:'Bûche de chèvre',qty:'1 bûche'});
+  if (names.some(function(n){ return n.includes('comté') || n.includes('gruyère'); })) c['🧀 Crémerie'].push({name:'Fromage à gratiner',qty:qG(150)});
+  if (names.some(function(n){ return n.includes('halloumi'); })) c['🧀 Crémerie'].push({name:'Halloumi',qty:qG(250)});
+
+  if (names.some(function(n){ return n.includes('riz'); })) c['🌾 Épicerie & Féculents'].push({name:'Riz',qty:qG(100)+'/repas'});
+  if (names.some(function(n){ return n.includes('pâtes') || n.includes('spaghetti') || n.includes('penne'); })) c['🌾 Épicerie & Féculents'].push({name:'Pâtes',qty:qG(100)+'/repas'});
+  if (names.some(function(n){ return n.includes('ramen') || n.includes('soba') || n.includes('nouilles'); })) c['🌾 Épicerie & Féculents'].push({name:'Nouilles asiatiques',qty:qG(100)});
+  if (names.some(function(n){ return n.includes('quinoa'); })) c['🌾 Épicerie & Féculents'].push({name:'Quinoa',qty:qG(100)});
+  if (names.some(function(n){ return n.includes('lentille'); })) c['🌾 Épicerie & Féculents'].push({name:'Lentilles',qty:qG(120)});
+  if (names.some(function(n){ return n.includes('pain') || n.includes('naan') || n.includes('pita'); })) c['🌾 Épicerie & Féculents'].push({name:'Pain/naan/pita',qty:'1 paquet'});
+  if (names.some(function(n){ return n.includes('tortilla') || n.includes('tacos') || n.includes('wrap'); })) c['🌾 Épicerie & Féculents'].push({name:'Tortillas',qty:'1 paquet'});
+  c['🌾 Épicerie & Féculents'].push({name:'Pain de campagne',qty:'1 miche'});
+
+  if (names.some(function(n){ return n.includes('tomat'); })) c['🫙 Conserves & Sauces'].push({name:'Tomates pelées (boîte)',qty:qt(2,'boîtes')});
+  if (names.some(function(n){ return n.includes('pois chiches') || n.includes('houmous'); })) c['🫙 Conserves & Sauces'].push({name:'Pois chiches (boîte)',qty:qt(2,'boîtes')});
+  if (names.some(function(n){ return n.includes('coco') || n.includes('curry') || n.includes('thaï'); })) c['🫙 Conserves & Sauces'].push({name:'Lait de coco',qty:qt(2,'boîtes')});
+  if (names.some(function(n){ return n.includes('miso'); })) c['🫙 Conserves & Sauces'].push({name:'Pâte miso',qty:'1 pot'});
+  if (names.some(function(n){ return n.includes('soja') || n.includes('wok') || n.includes('teriyaki'); })) c['🫙 Conserves & Sauces'].push({name:'Sauce soja',qty:'1 bouteille'});
+  c['🫙 Conserves & Sauces'].push({name:'Huile d\'olive',qty:'1 bouteille'},{name:'Bouillon',qty:'1 boîte chaque'},{name:'Moutarde de Dijon',qty:'1 pot'});
+
+  c['🌿 Herbes & Épices'].push({name:'Persil plat frais',qty:'1 bouquet'},{name:'Thym & laurier',qty:'1 bouquet'});
+  if (names.some(function(n){ return n.includes('basilic'); })) c['🌿 Herbes & Épices'].push({name:'Basilic frais',qty:'1 pot'});
+  if (names.some(function(n){ return n.includes('coriandre'); })) c['🌿 Herbes & Épices'].push({name:'Coriandre fraîche',qty:'1 bouquet'});
+  if (names.some(function(n){ return n.includes('curry') || n.includes('dhal'); })) c['🌿 Herbes & Épices'].push({name:'Curry/Garam masala',qty:'1 pot'});
+  if (names.some(function(n){ return n.includes('gingembre'); })) c['🌿 Herbes & Épices'].push({name:'Gingembre frais',qty:'1 morceau'});
+  c['🌿 Herbes & Épices'].push({name:'Fleur de sel & poivre noir',qty:'selon besoin'});
+
+  return c;
+}
+
+function renderCourses(courses) {
+  var g = document.getElementById('coursesGrid');
+  g.innerHTML = '';
+  Object.entries(courses).forEach(function(entry) {
+    var cat = entry[0], items = entry[1];
+    if (!items.length) return;
+    var div = document.createElement('div');
+    div.className = 'course-category';
+    div.innerHTML = '<div class="cat-title">' + cat + '</div>' +
+      items.map(function(i){ return '<div class="course-item"><span class="course-name">' + i.name + '</span><span class="course-qty">' + i.qty + '</span></div>'; }).join('');
+    g.appendChild(div);
+  });
+}
+
+// ============================================================
+// RECIPE MODAL
+// ============================================================
+function openRecipe(meal) {
+  var rec = RECIPE_DB[meal.name];
+  var p = parseInt(document.getElementById('nbPersonnes').value) || 1;
+  var isGeneric = !rec;
+  if (!rec) {
+    rec = {
+      temps:'30 min', difficulte:'Moyen',
+      baseIngredients:[{name:'Ingrédients principaux',q:null,u:'selon recette'}],
+      steps:['Préparer les ingrédients.','Cuire selon la méthode adaptée.','Assaisonner et servir chaud.'],
+      tip:'Goûtez et ajustez l\'assaisonnement en fin de cuisson.'
+    };
+  }
+  var hw = mealHasAllergen(meal.name);
+  var an = Array.from(activeAllergies).map(function(a){ var f = ALLERGIES.find(function(x){ return x.id===a; }); return f ? f.label : ''; }).filter(Boolean);
+
+  document.getElementById('modalTag').textContent = (meal.tag || '') + ' · Recette';
+  document.getElementById('modalTitle').textContent = meal.name;
+  document.getElementById('modalMeta').innerHTML = '<span>⏱️ ' + rec.temps + '</span><span>👨‍🍳 ' + rec.difficulte + '</span><span>🍽️ ' + p + ' pers.</span>';
+
+  var ings = rec.baseIngredients.map(function(ing) {
+    if (ing.q === null) return { name:ing.name, qty:ing.u };
+    return { name:ing.name, qty:parseFloat((ing.q*p).toFixed(1)) + ' ' + ing.u };
+  });
+
+  var body = '';
+  if (p > 1) body += '<div class="modal-note">👥 Quantités pour <strong>' + p + ' personnes</strong></div>';
+  if (hw) body += '<div class="modal-note warning">⚠️ Peut contenir : <strong>' + an.join(', ') + '</strong></div>';
+  if (isGeneric) body += '<div class="modal-note" style="background:#EEF2EC;border-color:#7A8C6E;color:#3D4F33;">💡 Recette en cours d\'enrichissement</div>';
+  body += '<div class="recipe-section-title">Ingrédients</div>';
+  body += '<div class="ingredients-grid">' + ings.map(function(i){ return '<div class="ingredient-row"><span>' + i.name + '</span><span class="ingredient-qty">' + i.qty + '</span></div>'; }).join('') + '</div>';
+  body += '<div class="recipe-section-title">Préparation</div>';
+  body += '<div class="steps-list">' + rec.steps.map(function(s,i){ return '<div class="step"><div class="step-num">' + (i+1) + '</div><div class="step-text">' + s + '</div></div>'; }).join('') + '</div>';
+  if (rec.tip) body += '<div class="chef-tip"><strong>💡 Astuce du chef</strong>' + rec.tip + '</div>';
+
+  document.getElementById('modalBody').innerHTML = body;
+  document.getElementById('recipeOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeRecipe() {
+  document.getElementById('recipeOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ============================================================
+// SHARE
+// ============================================================
+function buildShareText() {
+  var p = document.getElementById('nbPersonnes').value;
+  var t = '🍽️ KESKONMANJ — Ma semaine (' + p + ' pers.)\n\n';
+  DAYS.forEach(function(d, i) {
+    t += d + ': ' + (currentLunches[i] ? currentLunches[i].name : '—') + ' / ' + (currentDinners[i] ? currentDinners[i].name : '—') + '\n';
+  });
+  t += '\n🛒 COURSES :\n';
+  Object.entries(currentCourses).forEach(function(entry) {
+    var cat = entry[0], items = entry[1];
+    if (!items.length) return;
+    t += '\n' + cat + '\n';
+    items.forEach(function(i){ t += '☐ ' + i.name + ' — ' + i.qty + '\n'; });
+  });
+  t += '\n— Généré avec Keskonmanj by fluide.cmpny';
+  return t;
+}
+
+function openShare() {
+  if (!currentLunches.length) { showToast('⚠️ Génère d\'abord une semaine !'); return; }
+  var txt = buildShareText();
+  document.getElementById('shareCopyInput').value = txt.substring(0, 80) + '…';
+  document.getElementById('shareOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeShare() {
+  document.getElementById('shareOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function doShare(channel) {
+  var txt = buildShareText();
+  var enc = encodeURIComponent(txt);
+  closeShare();
+  if (channel === 'whatsapp') window.open('https://api.whatsapp.com/send?text=' + enc, '_blank');
+  else if (channel === 'sms') window.open('sms:?body=' + enc, '_blank');
+  else if (channel === 'email') window.open('mailto:?subject=' + encodeURIComponent('🍽️ Ma semaine Keskonmanj') + '&body=' + enc, '_blank');
+  else if (channel === 'telegram') window.open('https://t.me/share/url?url=https://fluide.cmpny&text=' + enc, '_blank');
+  else if (channel === 'native') {
+    if (navigator.share) {
+      navigator.share({ title:'Keskonmanj', text:txt }).catch(function(){});
+    } else {
+      navigator.clipboard.writeText(txt).then(function(){ showToast('📋 Copié !'); }).catch(function(){
+        showToast('📋 Copie manuelle depuis le champ');
+      });
+    }
+  }
+  else if (channel === 'print') window.print();
+}
+
+// ============================================================
+// SAVE / RESTORE — Safari-safe
+// ============================================================
+function saveWeek() {
+  if (!currentLunches.length) return;
+  var data = {
+    savedAt: new Date().toLocaleDateString('fr-FR', { weekday:'long', day:'numeric', month:'long' }),
+    lunches: currentLunches, dinners: currentDinners,
+    themes: Array.from(selectedThemes),
+    persons: document.getElementById('nbPersonnes').value,
+    allergies: Array.from(activeAllergies)
+  };
+  Storage.set('keskonmanj', JSON.stringify(data));
+  document.getElementById('saveBadge').classList.add('visible');
+  document.getElementById('savedBanner').classList.add('visible');
+  showToast('✅ Semaine sauvegardée !');
+}
+
+function restoreWeek() {
+  var raw = Storage.get('keskonmanj');
+  if (!raw) { showToast('Aucune sauvegarde trouvée'); return; }
+  var data;
+  try { data = JSON.parse(raw); } catch(e) { showToast('Erreur de sauvegarde'); return; }
+  currentLunches = data.lunches;
+  currentDinners = data.dinners;
+  selectedThemes = new Set(data.themes || []);
+  document.querySelectorAll('.theme-btn').forEach(function(btn, i) {
+    btn.classList.toggle('selected', selectedThemes.has(THEMES[i] && THEMES[i].id));
+  });
+  if (data.persons) document.getElementById('nbPersonnes').value = data.persons;
+  if (data.allergies) {
+    activeAllergies = new Set(data.allergies);
+    document.querySelectorAll('.allergy-btn').forEach(function(btn, i) {
+      btn.classList.toggle('active', activeAllergies.has(ALLERGIES[i] && ALLERGIES[i].id));
+    });
+  }
+  var c = selectedThemes.size;
+  document.getElementById('selectedCount').innerHTML = '<strong>' + c + '</strong> thème(s) — choisis entre 2 et 4';
+  document.getElementById('btnGenerate').disabled = c < 2;
+  renderWeek(currentLunches, currentDinners);
+  currentCourses = generateCourses(currentLunches.concat(currentDinners), data.persons || 2);
+  renderCourses(currentCourses);
+  document.getElementById('saveBadge').classList.add('visible');
+  document.getElementById('results').classList.add('visible');
+  document.getElementById('results').scrollIntoView({ behavior:'smooth', block:'start' });
+  showToast('🔄 Semaine restaurée !');
+}
+
+function clearSave() {
+  if (!confirm('Effacer la sauvegarde ?')) return;
+  Storage.remove('keskonmanj');
+  document.getElementById('saveBadge').classList.remove('visible');
+  document.getElementById('savedBanner').classList.remove('visible');
+  showToast('🗑️ Sauvegarde effacée');
+}
+
+// ============================================================
+// INIT & EVENTS
+// ============================================================
+renderAllergies();
+renderThemes();
+
+// Check saved
+if (Storage.get('keskonmanj')) document.getElementById('savedBanner').classList.add('visible');
+
+// Buttons
+document.getElementById('btnGenerate').addEventListener('click', generate);
+document.getElementById('btnSave').addEventListener('click', saveWeek);
+document.getElementById('btnShare').addEventListener('click', openShare);
+document.getElementById('btnPrint').addEventListener('click', function(){ window.print(); });
+document.getElementById('btnClear').addEventListener('click', clearSave);
+document.getElementById('btnRestore').addEventListener('click', restoreWeek);
+
+// Recipe modal
+document.getElementById('btnCloseRecipe').addEventListener('click', closeRecipe);
+document.getElementById('recipeOverlay').addEventListener('click', function(e){
+  if (e.target === document.getElementById('recipeOverlay')) closeRecipe();
+});
+
+// Share modal
+document.getElementById('btnCloseShare').addEventListener('click', closeShare);
+document.getElementById('shareOverlay').addEventListener('click', function(e){
+  if (!document.getElementById('shareSheet').contains(e.target)) closeShare();
+});
+document.getElementById('sWhatsapp').addEventListener('click', function(){ doShare('whatsapp'); });
+document.getElementById('sSms').addEventListener('click', function(){ doShare('sms'); });
+document.getElementById('sEmail').addEventListener('click', function(){ doShare('email'); });
+document.getElementById('sTelegram').addEventListener('click', function(){ doShare('telegram'); });
+document.getElementById('sNative').addEventListener('click', function(){ doShare('native'); });
+document.getElementById('sPrint').addEventListener('click', function(){ doShare('print'); });
+document.getElementById('sCopy').addEventListener('click', function(){
+  var txt = buildShareText();
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(txt).then(function(){ showToast('📋 Liste copiée !'); }).catch(function(){
+      // Fallback for Safari restrictions
+      var ta = document.createElement('textarea');
+      ta.value = txt; ta.style.position='fixed'; ta.style.opacity='0';
+      document.body.appendChild(ta); ta.focus(); ta.select();
+      try { document.execCommand('copy'); showToast('📋 Liste copiée !'); } catch(e) { showToast('Sélectionne le texte manuellement'); }
+      document.body.removeChild(ta);
+    });
+  } else {
+    var ta = document.createElement('textarea');
+    ta.value = txt; ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.focus(); ta.select();
+    try { document.execCommand('copy'); showToast('📋 Liste copiée !'); } catch(e) {}
+    document.body.removeChild(ta);
+  }
+});
+
+// Keyboard
+document.addEventListener('keydown', function(e){
+  if (e.key === 'Escape') { closeRecipe(); closeShare(); }
+});
+
+// iOS: prevent double-tap zoom on buttons
+document.addEventListener('touchend', function(e){
+  if (e.target.tagName === 'BUTTON' || e.target.tagName === 'SELECT') e.preventDefault();
+}, { passive:false });
+</script>
+</body>
+</html>
