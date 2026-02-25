@@ -131,6 +131,7 @@ header::after{
   font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:2px;
   cursor:pointer;transition:all .2s;margin-bottom:2rem;
   -webkit-appearance:none;min-height:52px;
+  touch-action:manipulation;
 }
 .generate-btn:disabled{opacity:.4;}
 .generate-btn:not(:disabled):active{transform:scale(.98);}
@@ -485,6 +486,38 @@ footer a{color:var(--gold);text-decoration:none;}
 </footer>
 
 <script>
+// ============================================================
+// DEBUG PANEL — capture erreurs iOS en temps réel
+// ============================================================
+(function(){
+  var panel = document.createElement('div');
+  panel.id = 'debugPanel';
+  panel.style.cssText = 'position:fixed;bottom:0;left:0;right:0;max-height:40vh;overflow-y:auto;background:rgba(0,0,0,.92);color:#0f0;font-size:11px;font-family:monospace;z-index:99999;padding:8px;display:none;';
+  var toggle = document.createElement('button');
+  toggle.textContent = '🐛 DEBUG';
+  toggle.style.cssText = 'position:fixed;bottom:10px;right:10px;z-index:999999;background:#e00;color:white;border:none;border-radius:8px;padding:8px 12px;font-size:12px;font-weight:bold;touch-action:manipulation;';
+  toggle.addEventListener('click', function(){ panel.style.display = panel.style.display==='none'?'block':'none'; });
+  document.body.appendChild(panel);
+  document.body.appendChild(toggle);
+  function log(type, msg){
+    var line = document.createElement('div');
+    line.style.borderBottom = '1px solid #333';
+    line.style.padding = '3px 0';
+    line.style.color = type==='error'?'#f66':type==='warn'?'#fa0':'#0f0';
+    line.textContent = '['+type.toUpperCase()+'] ' + msg;
+    panel.appendChild(line);
+    panel.scrollTop = panel.scrollHeight;
+    panel.style.display = 'block';
+  }
+  window.onerror = function(msg,src,line){ log('error', msg + ' (ligne '+line+')'); return false; };
+  window.addEventListener('unhandledrejection', function(e){ log('error', 'Promise: '+(e.reason||e)); });
+  var _console = { log:console.log, warn:console.warn, error:console.error };
+  console.log   = function(){ log('log',   Array.from(arguments).join(' ')); _console.log.apply(console,arguments); };
+  console.warn  = function(){ log('warn',  Array.from(arguments).join(' ')); _console.warn.apply(console,arguments); };
+  console.error = function(){ log('error', Array.from(arguments).join(' ')); _console.error.apply(console,arguments); };
+  log('log', '✅ Debug panel prêt — iOS Safari');
+})();
+
 // ============================================================
 // STORAGE — Safari-safe (localStorage with graceful fallback)
 // ============================================================
